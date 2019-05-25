@@ -1,21 +1,8 @@
 import React from 'react';
 import {AuthLayout} from "../../common/AuthLayout/";
 import {Loader} from "../../common/Loader";
-import {Block, styled} from "@qiwi/pijma-core"
-
-
-const ErrorContainer = styled('div')`
-    color: ${(props) => props.theme.color.error};
-    padding: 10px;  
-`;
-
-
-const HeaderLabel = styled('h2')`
-    font-size: 17px;
-    font-weight: 500;
-    font-weight: bold;
-    margin-bottom: 30px;
-`;
+import {Block, Card, styled} from "@qiwi/pijma-core"
+import {Heading, Paragraph, Text} from "@qiwi/pijma-desktop";
 
 
 const FluidTable = styled('table')`
@@ -63,7 +50,7 @@ export class UsersListPage extends React.Component {
         console.log(this.props.users);
         return (
             <AuthLayout>
-                <HeaderLabel>Пользователи</HeaderLabel>
+                <Heading size="1">Пользователи</Heading>
 
                 <Block>
                     {
@@ -72,7 +59,9 @@ export class UsersListPage extends React.Component {
                             :
 
                             this.props.isErrored ?
-                                <ErrorContainer>{this.props.getErrorMessage}</ErrorContainer>
+                                <Card p={3}>
+                                    <Text size="l" bold color="failure">{this.props.getErrorMessage}</Text>
+                                </Card>
                                 :
 
                                 <FluidTable>
@@ -86,7 +75,9 @@ export class UsersListPage extends React.Component {
                                     <tbody>
                                     {
                                         this.props.users.length === 0 &&
-                                        <EmptyRowHolder colSpan={3}>Пользователей нет</EmptyRowHolder>
+                                        <EmptyRowHolder colSpan={3}>
+                                            <Paragraph bold color="support">Пользователей нет</Paragraph>
+                                        </EmptyRowHolder>
                                     }
                                     {
                                         this.props.users.map(UserRow)
