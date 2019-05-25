@@ -8,31 +8,30 @@ import {Heading, Paragraph, Text} from "@qiwi/pijma-desktop";
 const FluidTable = styled('table')`
     width: 100%
 `;
-const Row = styled.tr`
+const Row = styled('tr')`
     border-bottom: 1px solid ${(props) => props.theme.color.gray.lightest}
 `;
-const HeaderRow = styled.tr`
+const HeaderRow = styled('tr')`
     font-weight: 500;
     font-weight: bold;
     border-bottom: 2px solid ${(props) => props.theme.color.gray.light};
 `;
 
-const Cell = styled.td`
+const Cell = styled('td')`
     padding: 10px
 `;
-const CellRight = styled.td`
+const CellRight = styled('td')`
     padding: 10px;
     text-align: right
 `;
-const CellCenterMuted = styled.td`
-    color: ${(props) => props.theme.color.gray.darkest};
+const CellCenter = styled('td')`
     padding: 10px;
     text-align: center;
 `;
 
 const EmptyRowHolder = (props) => (
     <Row>
-        <CellCenterMuted {...props}/>
+        <CellCenter {...props}/>
     </Row>
 );
 
