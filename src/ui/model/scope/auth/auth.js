@@ -21,7 +21,7 @@ const machine = new Machine({
     },
     transitions: {
         'init>loading': true,
-        'loading>ok': true,
+        'loading>ok': (state, res) => res,
         'loading>not_auth': true,
         'not_auth>auth_submitting': true,
         'auth_submitting>login_error': (state, res) => res,
@@ -52,7 +52,12 @@ export default {
                 ls.setItem('jwt', jwt);
             } catch (err) {
                 if (err instanceof AuthError && err.code === AuthError.BAD_CREDENTIALS) {
-                    this.next(AUTH_ERROR, {error: {...err, userMessage: 'Пожалуйста, проверьте введенные логин и пароль.'}});
+                    this.next(AUTH_ERROR, {
+                        error: {
+                            ...err,
+                            userMessage: 'Пожалуйста, проверьте введенные логин и пароль.'
+                        }
+                    });
                     return;
                 }
                 this.next(AUTH_ERROR, {error: {...err, userMessage: 'Что-то пошло не так'}});
@@ -62,9 +67,13 @@ export default {
             this.next(LOADING);
             let jwt = ls.getItem('jwt');
             if (!jwt) {
-               return this.logout();
+                return this.logout();
             }
-            this.next(OK);
+            this.next(OK, {
+                auth: {
+                    jwt
+                }
+            });
         },
         logout() {
             ls.removeItem('jwt');
